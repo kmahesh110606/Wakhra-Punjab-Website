@@ -120,11 +120,19 @@ export default function Events() {
               className="past-event-card shadow"
               style={{ marginLeft: "10px", marginRight: "10px" }}
             >
-              <img
-                src={ev.images[0]}
-                alt={ev.title}
-                className="w-full h-40 object-cover rounded-t-2xl"
-              />
+             {ev.images?.length > 0 ? (
+  <img
+    src={ev.images[0]}
+    alt={ev.title}
+    className="w-full h-40 object-cover rounded-t-2xl"
+  />
+) : (
+  <img
+    src={ev.img || "/Wakhra-Punjab-Website/assets/events/fallback.jpg"}
+    alt={ev.title}
+    className="w-full h-40 object-cover rounded-t-2xl"
+  />
+)}
               <div className="p-3 text-center">
                 <h4 className="font-heading text-brand-maroon">{ev.title}</h4>
                 <p className="text-xs">
