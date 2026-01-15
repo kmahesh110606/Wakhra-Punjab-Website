@@ -1,12 +1,25 @@
-# React + Vite
+# Wakhra Punjab Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Run locally
 
-Currently, two official plugins are available:
+- Dev: `npm install` then `npm run dev`
+- Production build (local check): `npm run build` then `npm run preview`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## GitHub Pages deployment
 
-## Expanding the ESLint configuration
+This repo is configured to deploy `dist/` to GitHub Pages via GitHub Actions.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. In GitHub: **Settings → Pages**
+2. Set **Source** to **GitHub Actions**
+3. Push to `main` (or run the workflow manually via **Actions**)
+
+The workflow sets `VITE_BASE` to `/${{ github.event.repository.name }}/`, so the site works when hosted under a repository subpath.
+
+## Why images were working on GitHub Pages but not locally
+
+Your code had image URLs hardcoded like `/Wakhra-Punjab-Website/assets/...`.
+
+- On GitHub Pages (project pages), the site is served under `/Wakhra-Punjab-Website/`, so those URLs resolve.
+- Locally (`npm run dev`), Vite serves the app at `/`, so `/Wakhra-Punjab-Website/assets/...` 404s.
+
+Fix: reference public assets via `import.meta.env.BASE_URL`, e.g. `${import.meta.env.BASE_URL}assets/logo-circle.png`.

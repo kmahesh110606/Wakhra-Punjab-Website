@@ -17,6 +17,8 @@ function formatDate(dateStr) {
 }
 
 export default function Events() {
+  const baseUrl = import.meta.env.BASE_URL;
+
   // Initialize state by computing current event status based on the current time
   const initial = useMemo(() => computeEventState(new Date()), []);
 
@@ -128,7 +130,7 @@ export default function Events() {
   />
 ) : (
   <img
-    src={ev.img || "/Wakhra-Punjab-Website/assets/events/fallback.jpg"}
+    src={ev.img || `${baseUrl}assets/events/wakhra_carnival_banner.png`}
     alt={ev.title}
     className="w-full h-40 object-cover rounded-t-2xl"
   />

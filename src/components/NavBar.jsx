@@ -4,6 +4,8 @@ import { clubInfo } from "../data";
 export default function NavBar() {
   const [open, setOpen] = useState(false);
 
+  const baseUrl = import.meta.env.BASE_URL;
+
   const navItems = [
     { id: "home", label: "Home" },
     { id: "about", label: "About" },
@@ -20,7 +22,7 @@ export default function NavBar() {
       <div className="container mx-auto flex items-center justify-between px-4 py-3">
         {/* Logo */}
         <a href="#home" className="flex items-center space-x-2">
-          <img src="/Wakhra-Punjab-Website/assets/logo-circle.png" alt="logo" className="h-10 w-10" />
+          <img src={`${baseUrl}assets/logo-circle.png`} alt="logo" className="h-10 w-10" />
           <span className="font-heading text-xl font-bold text-brand-maroon">
             {clubInfo.name}
           </span>

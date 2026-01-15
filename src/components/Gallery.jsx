@@ -192,7 +192,8 @@
 // src/components/Gallery.jsx
 // src/components/Gallery.jsx
 // src/components/Gallery.jsx
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
+import { createPortal } from "react-dom";
 import { pastEvents } from "../data";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -203,7 +204,10 @@ export default function Gallery() {
   const touchEndX = useRef(0);
 
   const openLightbox = (event) => {
-    setLightbox({ ...event, index: 0 });
+    const images = Array.isArray(event?.images) ? event.images.filter(Boolean) : [];
+    if (images.length === 0) return;
+
+    setLightbox({ title: event.title, date: event.date, images, index: 0 });
     setFade(true);
   };
 
@@ -238,6 +242,16 @@ export default function Gallery() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+  }, [lightbox]);
+
+  // Prevent background scroll while lightbox is open
+  useEffect(() => {
+    if (!lightbox) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
   }, [lightbox]);
 
   // Touch gestures
@@ -280,62 +294,60 @@ export default function Gallery() {
         ))}
       </div>
 
-      {lightbox && (
-        <div
-          className="lightbox"
-          onClick={closeLightbox}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
-          {/* Close */}
-          <button className="close-btn" onClick={closeLightbox}>
-            &times;
-          </button>
+      {lightbox &&
+        createPortal(
+          <div
+            className="lightbox"
+            onClick={closeLightbox}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Gallery: ${lightbox.title}`}
+          >
+            <div className="lightbox-modal" onClick={(e) => e.stopPropagation()}>
+              {/* Close */}
+              <button
+                className="close-btn"
+                onClick={closeLightbox}
+                aria-label="Close gallery"
+              >
+                &times;
+              </button>
 
-          {/* Prev */}
-          {lightbox.images.length > 1 && (
-            <button
-              className="nav-btn left"
-              onClick={(e) => {
-                e.stopPropagation();
-                prev();
-              }}
-            >
-              <ChevronLeft size={28} />
-            </button>
-          )}
+              {/* Prev */}
+              {lightbox.images.length > 1 && (
+                <button className="nav-btn left" onClick={prev} aria-label="Previous image">
+                  <ChevronLeft size={28} />
+                </button>
+              )}
 
-          {/* Image with fade */}
-          <img
-            src={lightbox.images[lightbox.index]}
-            alt={`${lightbox.title} ${lightbox.index + 1}`}
-            className={`lightbox-img ${fade ? "fade-in" : "fade-out"}`}
-            loading="lazy"
-            width="1200"
-            height="800"
-            draggable="false"
-            onClick={(e) => e.stopPropagation()}
-          />
+              {/* Image with fade */}
+              <img
+                src={lightbox.images[lightbox.index]}
+                alt={`${lightbox.title} ${lightbox.index + 1}`}
+                className={`lightbox-img ${fade ? "fade-in" : "fade-out"}`}
+                loading="lazy"
+                width="1200"
+                height="800"
+                draggable="false"
+              />
 
-          {/* Next */}
-          {lightbox.images.length > 1 && (
-            <button
-              className="nav-btn right"
-              onClick={(e) => {
-                e.stopPropagation();
-                next();
-              }}
-            >
-              <ChevronRight size={28} />
-            </button>
-          )}
+              {/* Next */}
+              {lightbox.images.length > 1 && (
+                <button className="nav-btn right" onClick={next} aria-label="Next image">
+                  <ChevronRight size={28} />
+                </button>
+              )}
 
-          {/* Caption */}
-          <div className="lightbox-caption">
-            {lightbox.title} — {lightbox.index + 1} / {lightbox.images.length}
-          </div>
-        </div>
-      )}
+              {/* Caption */}
+              <div className="lightbox-caption">
+                {lightbox.title} — {lightbox.index + 1} / {lightbox.images.length}
+              </div>
+            </div>
+          </div>,
+          document.body
+        )}
     </section>
   );
 }

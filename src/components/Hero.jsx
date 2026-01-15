@@ -2,12 +2,14 @@
 import React from "react";
 
 const Hero = () => {
+  const baseUrl = import.meta.env.BASE_URL;
+
   return (
     <section className="relative bg-gray-100">
       {/* Banner Image */}
         <div className="banner w-full mt-16">
         <img
-          src="/Wakhra-Punjab-Website/assets/banner-golden.png"
+          src={`${baseUrl}assets/banner-golden.png`}
           alt="Wakhra Punjab Banner"
           className="w-full object-cover"
         />
