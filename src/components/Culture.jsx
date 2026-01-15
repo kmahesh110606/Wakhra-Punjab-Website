@@ -14,6 +14,8 @@ export default function Culture() {
               src={post.img}
               alt={post.title}
               className="w-full h-40 object-cover rounded-lg mb-3"
+              loading="lazy"
+              decoding="async"
             />
             <h3 className="font-heading text-lg text-brand-maroon">{post.title}</h3>
             <p className="text-sm text-gray-600 mt-1">{post.excerpt}</p>

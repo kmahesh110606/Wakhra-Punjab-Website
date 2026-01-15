@@ -60,14 +60,14 @@ export default function NavBar() {
 
       {/* Mobile Menu */}
       {open && (
-        <div className="md:hidden bg-white border-t">
-          <ul className="flex flex-col space-y-3 p-4">
+        <div className="md:hidden border-t border-white/10 bg-black/60 backdrop-blur-xl">
+          <ul className="flex flex-col space-y-1 p-4">
             {navItems.map((item) => (
               <li key={item.id}>
                 <a
                   href={`#${item.id}`}
                   onClick={() => setOpen(false)}
-                  className="block hover:text-brand-maroon transition-colors"
+                  className="block rounded-lg px-3 py-2 text-white transition-colors hover:text-brand-gold hover:bg-white/10"
                 >
                   {item.label}
                 </a>

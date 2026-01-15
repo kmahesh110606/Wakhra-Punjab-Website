@@ -53,6 +53,8 @@ export default function Events() {
               src={next.img}
               alt={next.title}
               className="rounded-2xl w-full object-cover mb-4"
+              loading="lazy"
+              decoding="async"
             />
             <h3 className="text-2xl font-heading text-brand-gold">{next.title}</h3>
             <br />
@@ -92,6 +94,8 @@ export default function Events() {
                 src={ev.img}
                 alt={ev.title}
                 className="rounded-2xl w-full h-64 object-cover mb-3"
+                loading="lazy"
+                decoding="async"
               />
               <h4 className="font-heading text-lg text-brand-maroon">{ev.title}</h4>
               <p className="text-sm text-gray-600">
@@ -127,12 +131,16 @@ export default function Events() {
     src={ev.images[0]}
     alt={ev.title}
     className="w-full h-40 object-cover rounded-t-2xl"
+    loading="lazy"
+    decoding="async"
   />
 ) : (
   <img
     src={ev.img || `${baseUrl}assets/events/wakhra_carnival_banner.png`}
     alt={ev.title}
     className="w-full h-40 object-cover rounded-t-2xl"
+    loading="lazy"
+    decoding="async"
   />
 )}
               <div className="p-3 text-center">

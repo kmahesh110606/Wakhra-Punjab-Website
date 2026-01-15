@@ -327,7 +327,8 @@ export default function Gallery() {
                 src={lightbox.images[lightbox.index]}
                 alt={`${lightbox.title} ${lightbox.index + 1}`}
                 className={`lightbox-img ${fade ? "fade-in" : "fade-out"}`}
-                loading="lazy"
+                loading="eager"
+                decoding="async"
                 width="1200"
                 height="800"
                 draggable="false"

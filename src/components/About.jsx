@@ -54,6 +54,8 @@ export default function About() {
                     src={member.img}
                     alt={member.name}
                     className="w-48 h-48 rounded-full object-cover mb-4"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <h4 className="text-xl font-semibold text-center">
                     {member.name}
@@ -66,6 +68,8 @@ export default function About() {
                     src={member.img}
                     alt={member.name}
                     className="w-36 h-36 rounded-full object-cover mb-4"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <h4 className="text-lg font-semibold mb-2 text-center">
                     {member.bio}
@@ -94,6 +98,8 @@ export default function About() {
                     src={member.img}
                     alt={member.name}
                     className="w-48 h-48 rounded-full object-cover mb-4"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <h4 className="text-xl font-semibold text-center">
                     {member.name}
@@ -106,6 +112,8 @@ export default function About() {
                     src={member.img}
                     alt={member.name}
                     className="w-36 h-36 rounded-full object-cover mb-4"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <h4 className="text-lg font-semibold mb-2 text-center">
                     {member.bio}

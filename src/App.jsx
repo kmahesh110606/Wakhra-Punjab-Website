@@ -11,7 +11,6 @@ import Contact from "./components/Contact.jsx";
 import Footer from "./components/Footer.jsx";
 import LoadingOverlay from "./components/LoadingOverlay.jsx";
 import "./index.css";
-import { nextEvent, upcomingEvents, pastEvents } from "./data";
 
 // (optional) for scroll animations
 import AOS from "aos";
@@ -25,13 +24,6 @@ export default function App() {
     const urls = new Set([
       `${baseUrl}assets/logo-circle.png`,
       `${baseUrl}assets/banner-golden.png`,
-      nextEvent?.img,
-      ...(Array.isArray(upcomingEvents) ? upcomingEvents.map((e) => e?.img) : []),
-      ...(Array.isArray(pastEvents)
-        ? pastEvents
-            .slice(0, 6)
-            .map((e) => (Array.isArray(e?.images) ? e.images[0] : e?.img))
-        : []),
     ]);
 
     return [...urls].filter(Boolean);
@@ -64,7 +56,7 @@ export default function App() {
   }, [assetsReady]);
 
   if (!assetsReady) {
-    return <LoadingOverlay text="Loading site…" />;
+    return <LoadingOverlay text="ਸਾਈਟ ਲੋਡ ਹੋ ਰਹੀ ਹੈ…" />;
   }
 
   return (

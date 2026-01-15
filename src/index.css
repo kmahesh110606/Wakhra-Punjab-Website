@@ -747,8 +747,11 @@ body {
 .album-info {
   position: absolute;
   bottom: 0;
+  left: 0;
+  right: 0;
   width: 100%;
   padding: 0.6rem;
+  box-sizing: border-box;
   text-align: center;
   color: #fff;
   font-weight: 500;
@@ -884,6 +887,10 @@ body {
     height: 220px;
   }
 
+  .album-card {
+    min-height: 220px;
+  }
+
   .gallery-grid {
     gap: 0.75rem;
     padding: 0 0.5rem;
@@ -901,6 +908,10 @@ body {
 @media (max-width: 480px) {
   .album-cover {
     height: 200px;
+  }
+
+  .album-card {
+    min-height: 200px;
   }
 
   .album-card {
