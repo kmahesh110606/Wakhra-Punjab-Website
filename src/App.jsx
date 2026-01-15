@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import NavBar from "./components/NavBar.jsx";
 import Hero from "./components/Hero.jsx";
 import About from "./components/About.jsx";
@@ -9,16 +9,63 @@ import WordOfWeek from "./components/WordOfWeek.jsx";
 import Join from "./components/Join.jsx";
 import Contact from "./components/Contact.jsx";
 import Footer from "./components/Footer.jsx";
+import LoadingOverlay from "./components/LoadingOverlay.jsx";
 import "./index.css";
+import { nextEvent, upcomingEvents, pastEvents } from "./data";
 
 // (optional) for scroll animations
 import AOS from "aos";
 import "aos/dist/aos.css";
 
 export default function App() {
-  useEffect(() => {
-    AOS.init({ duration: 700, once: true, offset: 60 });
+  const [assetsReady, setAssetsReady] = useState(false);
+
+  const criticalImages = useMemo(() => {
+    const baseUrl = import.meta.env.BASE_URL;
+    const urls = new Set([
+      `${baseUrl}assets/logo-circle.png`,
+      `${baseUrl}assets/banner-golden.png`,
+      nextEvent?.img,
+      ...(Array.isArray(upcomingEvents) ? upcomingEvents.map((e) => e?.img) : []),
+      ...(Array.isArray(pastEvents)
+        ? pastEvents
+            .slice(0, 6)
+            .map((e) => (Array.isArray(e?.images) ? e.images[0] : e?.img))
+        : []),
+    ]);
+
+    return [...urls].filter(Boolean);
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const preloadImage = (src) =>
+      new Promise((resolve) => {
+        const img = new Image();
+        img.onload = resolve;
+        img.onerror = resolve; // don't block forever on 404
+        img.src = src;
+      });
+
+    (async () => {
+      await Promise.all(criticalImages.map(preloadImage));
+      if (!cancelled) setAssetsReady(true);
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [criticalImages]);
+
+  useEffect(() => {
+    if (!assetsReady) return;
+    AOS.init({ duration: 700, once: true, offset: 60 });
+  }, [assetsReady]);
+
+  if (!assetsReady) {
+    return <LoadingOverlay text="Loading site…" />;
+  }
 
   return (
     <div className="font-body text-neutral-900">

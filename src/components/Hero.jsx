@@ -12,6 +12,9 @@ const Hero = () => {
           src={`${baseUrl}assets/banner-golden.png`}
           alt="Wakhra Punjab Banner"
           className="w-full object-cover"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
         />
         {/*<a
           href="#join"
