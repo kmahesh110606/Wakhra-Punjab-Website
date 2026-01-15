@@ -7,11 +7,12 @@
 
 ## GitHub Pages deployment
 
-This repo is configured to deploy `dist/` to GitHub Pages via GitHub Actions.
+This repo is configured to build on pushes to `main` and publish `dist/` into a `gh-pages` branch via GitHub Actions.
 
 1. In GitHub: **Settings → Pages**
-2. Set **Source** to **GitHub Actions**
-3. Push to `main` (or run the workflow manually via **Actions**)
+2. Under **Build and deployment → Source**, choose **Deploy from a branch**
+3. Select **Branch: `gh-pages`** and **Folder: `/ (root)`**
+4. Push to `main` (or run the workflow manually via **Actions**) — the workflow will create `gh-pages` if it doesn’t exist yet
 
 The workflow sets `VITE_BASE` to `/${{ github.event.repository.name }}/`, so the site works when hosted under a repository subpath.
 
